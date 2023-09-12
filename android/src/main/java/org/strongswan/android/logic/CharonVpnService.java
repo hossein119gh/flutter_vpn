@@ -928,7 +928,6 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
             /* exclude our own app, otherwise the fetcher is blocked */
             switch (appHandling) {
                 case SELECTED_APPS_DISABLE:
-                    appHandling = SelectedAppsHandling.SELECTED_APPS_EXCLUDE;
                     mSelectedApps.clear();
                     /* fall-through */
                 case SELECTED_APPS_EXCLUDE:
