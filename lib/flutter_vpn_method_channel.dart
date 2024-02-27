@@ -140,6 +140,8 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     required String password,
     required int port,
     int? udpGW,
+    String? name,
+    int? mtu,
   }) async =>
       await methodChannel.invokeMethod('connect', {
         'VpnType': 'SSH',
@@ -147,6 +149,8 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
         'Username': username,
         'Password': password,
         'Port': port,
+        'Name': name ?? server,
+        if (mtu != null) 'mtu': mtu,
         if (udpGW != null) 'UdpGW': udpGW,
       });
 }

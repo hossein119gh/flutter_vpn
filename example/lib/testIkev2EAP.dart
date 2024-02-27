@@ -23,10 +23,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _addressController = TextEditingController(text: 'newh.oscardownload.xyz');
-  final _usernameController = TextEditingController(text: 'abbas');
-  final _passwordController = TextEditingController(text: 'abbas');
-  final _portController = TextEditingController(text: '4500');
+  final _addressController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   var state = FlutterVpnState.disconnected;
   CharonErrorState? charonState = CharonErrorState.NO_ERROR;
@@ -62,22 +61,15 @@ class _MyAppState extends State<MyApp> {
             ),
             TextFormField(
               controller: _passwordController,
-              obscureText: false,
+              obscureText: true,
               decoration: const InputDecoration(icon: Icon(Icons.lock_outline)),
-            ),
-            TextFormField(
-              controller: _portController,
-              obscureText: false,
-              decoration: const InputDecoration(icon: Icon(Icons.network_locked_sharp)),
             ),
             ElevatedButton(
               child: const Text('Connect'),
-              onPressed: () => FlutterVpn.connectSSH(
+              onPressed: () => FlutterVpn.connectIkev2EAP(
                 server: _addressController.text,
                 username: _usernameController.text,
                 password: _passwordController.text,
-                port: int.parse(_portController.text),
-                udpGW: 7301,
               ),
             ),
             ElevatedButton(

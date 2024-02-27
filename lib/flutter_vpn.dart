@@ -93,12 +93,16 @@ class FlutterVpn {
     required String password,
     required int port,
     int? udpGW,
+    String? name,
+    int? mtu,
   }) async =>
       FlutterVpnPlatform.instance.connectSSH(
           server: server,
           username: username,
           password: password,
           port: port,
-          udpGW:udpGW
+          udpGW:udpGW,
+        name:name,
+        mtu:mtu
       );
 }

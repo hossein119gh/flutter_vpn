@@ -22,7 +22,9 @@ import android.content.ServiceConnection
 import android.net.VpnService
 import android.os.Bundle
 import android.os.IBinder
-import android.support.annotation.NonNull
+import android.util.Log
+//import android.support.annotation.NonNull
+import  androidx.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -34,6 +36,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 import org.strongswan.android.logic.VpnStateService
+import kotlin.math.log
 
 class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private lateinit var activityBinding: ActivityPluginBinding
@@ -44,7 +47,7 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
     private lateinit var eventChannel: EventChannel
-
+    private var TAG="FlutterVpnPlaugin"
     private var vpnStateService: VpnStateService? = null
     private val vpnStateServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -98,6 +101,8 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+
+
         when (call.method) {
             "prepare" -> {
                 val intent = VpnService.prepare(activityBinding.activity.applicationContext)
@@ -120,26 +125,34 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 result.success(intent == null)
             }
             "connect" -> {
+                Log.d(TAG, "onMethodCall: inputtt...........")
+                Log.d(TAG, "onMethodCall:"+call.method)
+
                 val intent = VpnService.prepare(activityBinding.activity.applicationContext)
                 if (intent != null) {
                     // Not prepared yet.
                     result.success(false)
+                    Log.d(TAG, "onMethodCall: result.success(false).")
                     return
                 }
-
+                Log.d(TAG, "onMethodCall: result.success(true).")
                 val args = call.arguments as Map<*, *>
-
+                Log.d(TAG, "onMethodCall: Args:")
+                Log.d(TAG, args.toString())
                 val profileInfo = Bundle()
                 //profileInfo.putString("VpnType", "ikev2-byod-eap")
                 profileInfo.putString("VpnType", args["VpnType"] as String)
                 profileInfo.putString("Name", args["Name"] as String)
                 profileInfo.putString("Server", args["Server"] as String)
                 profileInfo.putString("RemoteId", args["Username"] as String)
+                profileInfo.putString("Username", args["Username"] as String)
                 profileInfo.putString("Password", args["Password"] as String)
-                if (args.containsKey("MTU"))  profileInfo.putInt("MTU", args["MTU"] as Int)
-                if (args.containsKey("port")) profileInfo.putInt("Port", args["Port"] as Int)
-                if (args.containsKey("udpGW")) profileInfo.putInt("UdpGW", args["UdpGW"] as Int)
+                //if (args.containsKey("MTU"))  profileInfo.putInt("MTU", args["MTU"] as Int)
+                if (args.containsKey("Port")) profileInfo.putInt("Port", args["Port"] as Int)
+                if (args.containsKey("UdpGW")) profileInfo.putInt("UdpGW", args["UdpGW"] as Int)
 
+                Log.d(TAG, "onMethodCall: ###########")
+                Log.d(TAG, "onMethodCall:${args["Server"]}")
                 vpnStateService?.connect(profileInfo, true)
                 result.success(true)
             }

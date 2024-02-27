@@ -8,7 +8,8 @@
     <application>
         <service
             android:name="org.strongswan.android.logic.SshVpnService"
-            android:exported="false"></service>
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:exported="false" />
         <service
             android:name="org.strongswan.android.logic.VpnStateService"
             android:exported="false" />

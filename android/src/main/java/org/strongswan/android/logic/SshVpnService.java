@@ -36,11 +36,17 @@ public class SshVpnService extends VpnService {
     }
 
     private void establishVpnConnection(Intent intent) throws IOException {
-        String host = intent.getStringExtra("host");
-        int port = intent.getIntExtra("port", 22);
-        String username = intent.getStringExtra("username");
-        String password = intent.getStringExtra("password");
-        int udpGw = intent.getIntExtra("udpGw", 7300);
+        String host = intent.getStringExtra("Server");
+        int port = intent.getIntExtra("Port", 22);
+        String username = intent.getStringExtra("Username");
+        String password = intent.getStringExtra("Password");
+        int udpGw = intent.getIntExtra("UdpGw", 7300);
+        Log.d(TAG, "establishVpnConnection: #################");
+        Log.d(TAG, "establishVpnConnection: host:"+host);
+        Log.d(TAG, "establishVpnConnection: username:"+username);
+        Log.d(TAG, "establishVpnConnection: password: "+password);
+        Log.d(TAG, "establishVpnConnection: Port: "+port);
+        Log.d(TAG, "establishVpnConnection: udpGw: "+udpGw);
 
         // Connect to SSH server and forward traffic
         try (Socket socket = new Socket()) {
@@ -54,6 +60,10 @@ public class SshVpnService extends VpnService {
             session.connect();
             Channel channel = session.openChannel("shell");
             channel.connect();
+            if (channel.isConnected())
+                Log.d(TAG, "establishVpnConnection: channel isConnected :) ");
+            else
+                Log.e(TAG, "establishVpnConnection: channel is not connect");
             // Establish VPN interface
             Builder builder = new Builder();
             builder.addAddress("10.0.0.2", 32)
@@ -64,22 +74,28 @@ public class SshVpnService extends VpnService {
                     .addDnsServer("8.8.4.4")
                     .establish();
             vpnInterface = builder.establish();
-
+            if(vpnInterface==null){
+                Log.e(TAG, "establishVpnConnection: vpnInterface is null!!" );
+                return;
+            }
             FileInputStream in = new FileInputStream(vpnInterface.getFileDescriptor());
             FileOutputStream out = new FileOutputStream(vpnInterface.getFileDescriptor());
             channel.setInputStream(in);
             channel.setOutputStream(out);
             // Wait for channel to close
             while (!channel.isClosed()) {
+                Log.d(TAG, "establishVpnConnection: ssh is open...");
                 try {
                     TimeUnit.MILLISECONDS.sleep(100);
                 } catch (InterruptedException e) {
                     Log.e(TAG, "Interrupted while waiting for channel to close", e);
                 }
             }
+
             // Disconnect SSH session
             channel.disconnect();
             session.disconnect();
+            Log.w(TAG, "establishVpnConnection:  channel and session is disconnected");
         } catch (IOException | JSchException e) {
             Log.e(TAG, "Error connecting to SSH server", e);
         }

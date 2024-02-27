@@ -101,6 +101,8 @@ abstract class FlutterVpnPlatform extends PlatformInterface {
     required String password,
     required int port,
     int? udpGW,
+    String? name,
+    int? mtu,
   }) async =>
       throw UnimplementedError();
 }
