@@ -83,4 +83,22 @@ class FlutterVpn {
         mtu: mtu,
         port: port,
       );
+  /// Connect to VPN. (SSH)
+  ///
+  /// This will create a background VPN service.
+  /// Android implementation is not available.
+  static Future<void> connectSSH({
+    required String server,
+    required String username,
+    required String password,
+    required int port,
+    int? udpGW,
+  }) async =>
+      FlutterVpnPlatform.instance.connectSSH(
+          server: server,
+          username: username,
+          password: password,
+          port: port,
+          udpGW:udpGW
+      );
 }

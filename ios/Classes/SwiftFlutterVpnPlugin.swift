@@ -31,7 +31,7 @@ public class SwiftFlutterVpnPlugin: NSObject, FlutterPlugin {
         let args = call.arguments! as! [NSString: NSString]
         VpnService.shared.connect(
           result: result,
-          type: (args["Type"] as? String ?? "IKEv2"),
+          type: (args["VpnType"] as? String ?? "IKEv2"),
           server: args["Server"]! as String,
           username: args["Username"]! as String,
           password: args["Password"]! as String,

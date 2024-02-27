@@ -41,7 +41,7 @@ public class VpnProfile implements Cloneable
 	private String mName, mGateway, mUsername, mPassword, mCertificate, mUserCertificate;
 	private String mRemoteId, mLocalId, mExcludedSubnets, mIncludedSubnets, mSelectedApps;
 	private String mIkeProposal, mEspProposal, mDnsServers;
-	private Integer mMTU, mPort, mSplitTunneling, mNATKeepAlive, mFlags;
+	private Integer mMTU, mPort, mSplitTunneling, mNATKeepAlive, mFlags,mUdpGw;
 	private SelectedAppsHandling mSelectedAppsHandling = SelectedAppsHandling.SELECTED_APPS_DISABLE;
 	private VpnType mVpnType;
 	private UUID mUUID;
@@ -219,6 +219,16 @@ public class VpnProfile implements Cloneable
 	public void setMTU(Integer mtu)
 	{
 		this.mMTU = mtu;
+	}
+
+	public Integer getUdpGw()
+	{
+		return mUdpGw;
+	}
+
+	public void setUdpGw(Integer udpGw)
+	{
+		this.mUdpGw = udpGw;
 	}
 
 	public Integer getPort()

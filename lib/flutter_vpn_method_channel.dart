@@ -95,7 +95,7 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     int? port,
   }) async =>
       await methodChannel.invokeMethod('connect', {
-        'Type': 'IKEv2',
+        'VpnType': 'IKEv2',
         'Server': server,
         'Username': username,
         'Password': password,
@@ -120,7 +120,7 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     int? port,
   }) async =>
       await methodChannel.invokeMethod('connect', {
-        'Type': 'IPSec',
+        'VpnType': 'IPSec',
         'Server': server,
         'Username': username,
         'Password': password,
@@ -128,5 +128,25 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
         'Name': name ?? server,
         if (mtu != null) 'mtu': mtu,
         if (port != null) 'port': port,
+      });
+
+  /// Connect to VPN. (SSH)
+  ///
+  /// This will create a background VPN service.
+  @override
+  Future<void> connectSSH({
+    required String server,
+    required String username,
+    required String password,
+    required int port,
+    int? udpGW,
+  }) async =>
+      await methodChannel.invokeMethod('connect', {
+        'VpnType': 'SSH',
+        'Server': server,
+        'Username': username,
+        'Password': password,
+        'Port': port,
+        if (udpGW != null) 'UdpGW': udpGW,
       });
 }

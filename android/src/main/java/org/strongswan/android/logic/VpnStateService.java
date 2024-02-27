@@ -264,22 +264,34 @@ public class VpnStateService extends Service {
      * @param fromScratch true if this is a manual retry/reconnect or a completely new connection
      */
     public void connect(Bundle profileInfo, boolean fromScratch) {
-        /* we assume we have the necessary permission */
-        Context context = getApplicationContext();
-        Intent intent = new Intent(context, CharonVpnService.class);
         if (profileInfo == null) {
             profileInfo = mProfileInfo;
         } else {
             mProfileInfo = profileInfo;
         }
-        if (fromScratch) {
-            /* reset if this is a manual retry or a new connection */
-            mTimeoutProvider.reset();
-        } else {    /* mark this as an automatic retry */
-            profileInfo.putBoolean(CharonVpnService.KEY_IS_RETRY, true);
+        String vpnType= profileInfo.getString("VpnType");
+        /* we assume we have the necessary permission */
+        Context context = getApplicationContext();
+        Intent intent;
+        if(vpnType!=null && vpnType.equals("SSH")){
+            intent = new Intent(context, SshVpnService.class);
+            if (fromScratch) {
+                /* reset if this is a manual retry or a new connection */
+                mTimeoutProvider.reset();
+            }
+        }
+        else {
+            intent = new Intent(context, CharonVpnService.class);
+            if (fromScratch) {
+                /* reset if this is a manual retry or a new connection */
+                mTimeoutProvider.reset();
+            } else {    /* mark this as an automatic retry */
+                profileInfo.putBoolean(CharonVpnService.KEY_IS_RETRY, true);
+            }
         }
         intent.putExtras(profileInfo);
         ContextCompat.startForegroundService(context, intent);
+
     }
 
     /**

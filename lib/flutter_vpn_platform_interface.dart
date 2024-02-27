@@ -90,4 +90,17 @@ abstract class FlutterVpnPlatform extends PlatformInterface {
     int? port,
   }) async =>
       throw UnimplementedError();
+
+  /// Connect to VPN. (SSH)
+  ///
+  /// This will create a background VPN service.
+  /// Android implementation is  available.
+  Future<void> connectSSH({
+    required String server,
+    required String username,
+    required String password,
+    required int port,
+    int? udpGW,
+  }) async =>
+      throw UnimplementedError();
 }

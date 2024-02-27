@@ -148,6 +148,7 @@ public class CharonVpnService extends VpnService implements Runnable, VpnStateSe
 
                     // Global
                     profile.setMTU(bundle.getInt("MTU", 1400));
+                    profile.setUdpGw(bundle.getInt("UdpGw", 7300));
 
                     // Connection
                     profile.setGateway(bundle.getString("Server"));

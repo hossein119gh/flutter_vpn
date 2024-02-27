@@ -22,7 +22,7 @@ import android.content.ServiceConnection
 import android.net.VpnService
 import android.os.Bundle
 import android.os.IBinder
-import androidx.annotation.NonNull
+import android.support.annotation.NonNull
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -130,13 +130,15 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 val args = call.arguments as Map<*, *>
 
                 val profileInfo = Bundle()
-                profileInfo.putString("VpnType", "ikev2-byod-eap")
+                //profileInfo.putString("VpnType", "ikev2-byod-eap")
+                profileInfo.putString("VpnType", args["VpnType"] as String)
                 profileInfo.putString("Name", args["Name"] as String)
                 profileInfo.putString("Server", args["Server"] as String)
                 profileInfo.putString("RemoteId", args["Username"] as String)
                 profileInfo.putString("Password", args["Password"] as String)
                 if (args.containsKey("MTU"))  profileInfo.putInt("MTU", args["MTU"] as Int)
                 if (args.containsKey("port")) profileInfo.putInt("Port", args["Port"] as Int)
+                if (args.containsKey("udpGW")) profileInfo.putInt("UdpGW", args["UdpGW"] as Int)
 
                 vpnStateService?.connect(profileInfo, true)
                 result.success(true)
