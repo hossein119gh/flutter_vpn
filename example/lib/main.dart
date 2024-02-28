@@ -81,8 +81,8 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
             ElevatedButton(
-              child: const Text('Disconnect'),
-              onPressed: () => FlutterVpn.disconnect(),
+              child: const Text('Disconnect_SSH'),
+              onPressed: () => FlutterVpn.disconnectSsh(),
             ),
             ElevatedButton(
               child: const Text('Update State'),

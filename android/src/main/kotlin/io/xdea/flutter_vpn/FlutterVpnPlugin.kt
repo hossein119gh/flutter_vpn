@@ -164,6 +164,7 @@ class FlutterVpnPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             }
             "getCharonErrorState" -> result.success(vpnStateService?.errorState?.ordinal)
             "disconnect" -> vpnStateService?.disconnect()
+            "disconnect_ssh" -> vpnStateService?.disconnectSsh()
             else -> result.notImplemented()
         }
     }

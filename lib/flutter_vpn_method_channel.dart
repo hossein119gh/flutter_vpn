@@ -81,6 +81,12 @@ class MethodChannelFlutterVpn extends FlutterVpnPlatform {
     await methodChannel.invokeMethod('disconnect');
   }
 
+  /// Disconnect and stop SSH VPN service.
+  @override
+  Future<void> disconnectSsh() async {
+    await methodChannel.invokeMethod('disconnect_ssh');
+  }
+
   /// Connect to VPN. (IKEv2-EAP)
   ///
   /// This will create a background VPN service.

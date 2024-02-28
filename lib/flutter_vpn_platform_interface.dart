@@ -62,6 +62,9 @@ abstract class FlutterVpnPlatform extends PlatformInterface {
   /// Disconnect and stop VPN service.
   Future<void> disconnect() async => throw UnimplementedError();
 
+  /// Disconnect and stop SSH VPN service.
+  Future<void> disconnectSsh() async => throw UnimplementedError();
+
   /// Connect to VPN. (IKEv2-EAP)
   ///
   /// This will create a background VPN service.

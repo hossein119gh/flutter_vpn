@@ -40,6 +40,9 @@ class FlutterVpn {
   /// Disconnect and stop VPN service.
   static Future<void> disconnect() => FlutterVpnPlatform.instance.disconnect();
 
+  /// Disconnect and stop SSH VPN service.
+  static Future<void> disconnectSsh() => FlutterVpnPlatform.instance.disconnectSsh();
+
   /// Connect to VPN. (IKEv2-EAP)
   ///
   /// This will create a background VPN service.

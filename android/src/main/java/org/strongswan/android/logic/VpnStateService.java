@@ -255,6 +255,22 @@ public class VpnStateService extends Service {
         intent.setAction(CharonVpnService.DISCONNECT_ACTION);
         context.startService(intent);
     }
+    /**
+     * Disconnect SSH VPN any existing connection and shutdown the daemon, the
+     * VpnService is not stopped but it is reset so new connections can be
+     * started.
+     */
+    public void disconnectSsh() {
+        /* reset any potential retry timer and error state */
+        resetRetryTimer();
+        setError(ErrorState.NO_ERROR);
+
+        Context context = getApplicationContext();
+        Intent intent = new Intent(context, SshVpnService.class);
+        intent.setAction(SshVpnService.DISCONNECT_ACTION);
+        context.startService(intent);
+    }
+
 
     /**
      * Connect (or reconnect) a profile
