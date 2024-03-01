@@ -23,7 +23,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _addressController = TextEditingController(text: 'newh.oscardownload.xyz');
+  //88.119.171.175
+  //newh.oscardownload.xyz
+  final _addressController = TextEditingController(text: '88.119.171.175');
   final _usernameController = TextEditingController(text: 'abbas');
   final _passwordController = TextEditingController(text: 'abbas');
   final _portController = TextEditingController(text: '4500');

@@ -42,6 +42,10 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://repo.jenkins-ci.org/public/'
+        }
     }
 }
 
@@ -55,6 +59,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 
     kotlinOptions {
         jvmTarget = '1.8'
@@ -79,5 +84,13 @@ dependencies {
 
     implementation 'com.android.support:support-annotations:28.0.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.jcraft:jsch:0.1.55'
+
+    //service SSH
+    // https://mvnrepository.com/artifact/net.i2p.crypto/eddsa
+    implementation 'net.i2p.crypto:eddsa:0.3.0'
+    // https://mvnrepository.com/artifact/org.connectbot.jbcrypt/jbcrypt
+    implementation 'org.connectbot.jbcrypt:jbcrypt:1.0.0'
+    implementation 'com.github.kimchangyoun:rootbeerFresh:0.0.10'
+    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.1.0'
+
 }

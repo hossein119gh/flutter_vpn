@@ -6,10 +6,38 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application>
-        <service
-            android:name="org.strongswan.android.logic.SshVpnService"
-            android:permission="android.permission.BIND_VPN_SERVICE"
-            android:exported="false" />
+
+        <!--- Receivers -->
+        <receiver
+            android:name="com.slipkprojects.ultrasshservice.MainReceiver">
+            <intent-filter>
+                <action
+                    android:name=".MainReceiver.ACTION_SERVICE_STOP">
+                </action>
+                <action
+                    android:name=".MainReceiver.ACTION_SERVICE_RESTART">
+                </action>
+            </intent-filter>
+        </receiver>
+
+
+        <!--- Services -->
+        <service android:label="SocksHttp Vpn"
+            android:name="com.slipkprojects.ultrasshservice.tunnel.vpn.TunnelVpnService"
+            android:exported="false"
+            android:enabled="true"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService"/>
+            </intent-filter>
+        </service>
+
+        <service android:label="SocksHttp Service"
+            android:name="com.slipkprojects.ultrasshservice.SocksHttpService"
+            android:stopWithTask="false"
+            android:exported="false">
+        </service>
+
         <service
             android:name="org.strongswan.android.logic.VpnStateService"
             android:exported="false" />

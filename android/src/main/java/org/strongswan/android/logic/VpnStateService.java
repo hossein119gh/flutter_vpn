@@ -265,10 +265,10 @@ public class VpnStateService extends Service {
         resetRetryTimer();
         setError(ErrorState.NO_ERROR);
 
-        Context context = getApplicationContext();
-        Intent intent = new Intent(context, SshVpnService.class);
-        intent.setAction(SshVpnService.DISCONNECT_ACTION);
-        context.startService(intent);
+//        Context context = getApplicationContext();
+//        Intent intent = new Intent(context, SshVpnService.class);
+//        intent.setAction(SshVpnService.DISCONNECT_ACTION);
+//        context.startService(intent);
     }
 
 
@@ -289,21 +289,13 @@ public class VpnStateService extends Service {
         /* we assume we have the necessary permission */
         Context context = getApplicationContext();
         Intent intent;
-        if(vpnType!=null && vpnType.equals("SSH")){
-            intent = new Intent(context, SshVpnService.class);
-            if (fromScratch) {
-                /* reset if this is a manual retry or a new connection */
-                mTimeoutProvider.reset();
-            }
-        }
-        else {
-            intent = new Intent(context, CharonVpnService.class);
-            if (fromScratch) {
-                /* reset if this is a manual retry or a new connection */
-                mTimeoutProvider.reset();
-            } else {    /* mark this as an automatic retry */
-                profileInfo.putBoolean(CharonVpnService.KEY_IS_RETRY, true);
-            }
+
+        intent = new Intent(context, CharonVpnService.class);
+        if (fromScratch) {
+            /* reset if this is a manual retry or a new connection */
+            mTimeoutProvider.reset();
+        } else {    /* mark this as an automatic retry */
+            profileInfo.putBoolean(CharonVpnService.KEY_IS_RETRY, true);
         }
         intent.putExtras(profileInfo);
         ContextCompat.startForegroundService(context, intent);
